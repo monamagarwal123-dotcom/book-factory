@@ -1,13 +1,16 @@
 models:
   text_default: "claude-3-5-sonnet"
   text_cheap: "ollama/llama3.1:8b"
-  image_gen: "black-forest-labs/flux-1.1-pro"
+  # Meta AI is now primary - no token needed when using this chat
+  image_gen: "meta-ai/muse-spark-image"
+  image_gen_fallback: "black-forest-labs/flux-1.1-pro"
   image_inpaint: "stability-ai/sdxl-inpainting"
   image_outpaint: "stability-ai/sdxl"
   image_upscale: "nightmareai/real-esrgan"
   vision: "gpt-4o-mini"
   image_ref_strength: 0.8
   use_ip_adapter: true
+  use_meta_ai: true
 
 kdp:
   default_trim: "6x9"
@@ -19,5 +22,7 @@ kdp:
   bleed: 0.125
   dpi: 300
 
-# Set REPLICATE_API_TOKEN env var to use real models
-# Without it, falls back to placeholders for offline testing
+# How image generation works:
+# 1. USE_META_AI=true (default) -> uses Meta AI via this chat (free, no API key)
+# 2. REPLICATE_API_TOKEN set -> uses Replicate Flux as fallback
+# 3. Neither -> placeholder for offline testing
