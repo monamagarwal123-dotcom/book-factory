@@ -1,0 +1,8 @@
+.DS_Store
+book_data/
+core/.DS_Store
+__pycache__/
+*.pyc
+venv/
+book_data/images/*.jpg
+book_data/images/*.png
