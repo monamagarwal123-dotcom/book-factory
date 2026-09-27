@@ -1,0 +1,7 @@
+typer
+rich
+pillow
+reportlab
+PyYAML
+replicate
+requests

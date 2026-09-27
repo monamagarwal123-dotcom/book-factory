@@ -1,0 +1,23 @@
+models:
+  text_default: "claude-3-5-sonnet"
+  text_cheap: "ollama/llama3.1:8b"
+  image_gen: "black-forest-labs/flux-1.1-pro"
+  image_inpaint: "stability-ai/sdxl-inpainting"
+  image_outpaint: "stability-ai/sdxl"
+  image_upscale: "nightmareai/real-esrgan"
+  vision: "gpt-4o-mini"
+  image_ref_strength: 0.8
+  use_ip_adapter: true
+
+kdp:
+  default_trim: "6x9"
+  trims:
+    "5x8": [5, 8]
+    "5.5x8.5": [5.5, 8.5]
+    "6x9": [6, 9]
+    "8.5x11": [8.5, 11]
+  bleed: 0.125
+  dpi: 300
+
+# Set REPLICATE_API_TOKEN env var to use real models
+# Without it, falls back to placeholders for offline testing
