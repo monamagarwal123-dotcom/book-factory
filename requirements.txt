@@ -5,3 +5,9 @@ reportlab
 PyYAML
 replicate
 requests
+torch
+diffusers
+transformers
+accelerate
+google-genai
+google-generativeai

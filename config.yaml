@@ -1,16 +1,82 @@
 models:
-  text_default: "claude-3-5-sonnet"
-  text_cheap: "ollama/llama3.1:8b"
-  # Meta AI is now primary - no token needed when using this chat
-  image_gen: "meta-ai/muse-spark-image"
-  image_gen_fallback: "black-forest-labs/flux-1.1-pro"
-  image_inpaint: "stability-ai/sdxl-inpainting"
-  image_outpaint: "stability-ai/sdxl"
-  image_upscale: "nightmareai/real-esrgan"
-  vision: "gpt-4o-mini"
-  image_ref_strength: 0.8
-  use_ip_adapter: true
-  use_meta_ai: true
+  text:
+    default: "gemini-1.5-flash"  # Most stable Gemini - works for all keys
+    cheap: "grok:grok-3-mini"
+    premium: "grok:grok-4"
+    providers:
+      "gemini-1.5-flash":
+        provider: "gemini"
+        model: "gemini-1.5-flash"
+        free: true
+        cost: 0
+      "gemini-2.0-flash":
+        provider: "gemini"
+        model: "gemini-2.0-flash"
+        free: true
+        cost: 0
+      "gemini-2.5-flash":
+        provider: "gemini"
+        model: "gemini-2.5-flash"
+        free: true
+        cost: 0
+      "grok:grok-4":
+        provider: "grok"
+        model: "grok-4"
+        cost: 0.003
+      "grok:grok-3":
+        provider: "grok"
+        model: "grok-3"
+        cost: 0.003
+      "grok:grok-3-mini":
+        provider: "grok"
+        model: "grok-3-mini"
+        cost: 0.0003
+      "grok:grok-2":
+        provider: "grok"
+        model: "grok-2-1212"
+        cost: 0.002
+      "pollinations:openai":
+        provider: "pollinations"
+        model: "openai"
+        free: true
+        cost: 0
+      "groq:llama3":
+        provider: "groq"
+        model: "openai/gpt-oss-120b"
+        free: true
+        cost: 0
+      "ollama:llama3.1:8b":
+        provider: "ollama"
+        model: "llama3.1:8b"
+        free: true
+        local: true
+      "gpt-4o-mini":
+        provider: "openai"
+        model: "gpt-4o-mini"
+        cost: 0.00015
+      "claude-3-5-sonnet":
+        provider: "anthropic"
+        model: "claude-3-5-sonnet-20241022"
+        cost: 0.003
+
+  image:
+    default: "pollinations:turbo"
+    fallback: "gemini-2.5-flash-image"
+    providers:
+      "pollinations:turbo":
+        provider: "pollinations"
+        model: "turbo"
+        free: true
+        cost: 0
+      "pollinations:flux":
+        provider: "pollinations"
+        model: "flux"
+        free: true
+        cost: 0
+      "gemini-2.5-flash-image":
+        provider: "gemini"
+        model: "gemini-2.5-flash-image"
+        cost: 0.039
 
 kdp:
   default_trim: "6x9"
@@ -21,8 +87,3 @@ kdp:
     "8.5x11": [8.5, 11]
   bleed: 0.125
   dpi: 300
-
-# How image generation works:
-# 1. USE_META_AI=true (default) -> uses Meta AI via this chat (free, no API key)
-# 2. REPLICATE_API_TOKEN set -> uses Replicate Flux as fallback
-# 3. Neither -> placeholder for offline testing

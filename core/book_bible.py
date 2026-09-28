@@ -1,7 +1,14 @@
+
 import json
 from pathlib import Path
 
-BIBLE_PATH = Path("book_data/book_bible.json")
+try:
+    from core.filenames import format_book_bible_path
+    def get_bible_path(project_id=None):
+        return format_book_bible_path(project_id)
+except:
+    def get_bible_path(project_id=None):
+        return Path("book_data/book_bible.json")
 
 DEFAULT_BIBLE = {
     "title": "Untitled Book",
@@ -22,16 +29,24 @@ DEFAULT_BIBLE = {
 }
 
 class BookBible:
-    def __init__(self, path=BIBLE_PATH):
-        self.path = Path(path)
+    def __init__(self, path=None, project_id=None):
+        if path:
+            self.path = Path(path)
+        else:
+            self.path = get_bible_path(project_id)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         if self.path.exists():
-            self.data = json.loads(self.path.read_text())
+            try:
+                self.data = json.loads(self.path.read_text())
+            except:
+                self.data = DEFAULT_BIBLE.copy()
+                self.save()
         else:
             self.data = DEFAULT_BIBLE.copy()
             self.save()
     
     def save(self):
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         self.path.write_text(json.dumps(self.data, indent=2))
     
     def get_prompt_context(self, character_name=None):

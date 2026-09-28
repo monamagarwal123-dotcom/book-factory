@@ -1,19 +1,33 @@
-import json, os
+
+import json
 from pathlib import Path
 from datetime import datetime
 
-CATALOG_PATH = Path("book_data/image_catalog.json")
+try:
+    from core.filenames import format_catalog_path
+    def get_catalog_path(project_id=None):
+        return format_catalog_path(project_id)
+except:
+    def get_catalog_path(project_id=None):
+        return Path("book_data/image_catalog.json")
 
 class ImageCatalog:
-    def __init__(self, path=CATALOG_PATH):
-        self.path = Path(path)
+    def __init__(self, path=None, project_id=None):
+        if path:
+            self.path = Path(path)
+        else:
+            self.path = get_catalog_path(project_id)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         if self.path.exists():
-            self.data = json.loads(self.path.read_text())
+            try:
+                self.data = json.loads(self.path.read_text())
+            except:
+                self.data = {"images": {}}
         else:
             self.data = {"images": {}}
     
     def save(self):
+        self.path.parent.mkdir(parents=True, exist_ok=True)
         self.path.write_text(json.dumps(self.data, indent=2))
     
     def add(self, img_id, prompt, file_path, character_refs=None, seed=None):
